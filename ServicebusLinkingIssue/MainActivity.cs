@@ -6,6 +6,8 @@ using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using Microsoft.Azure.ServiceBus;
+using Microsoft.Azure.ServiceBus.Primitives;
 
 namespace ServicebusLinkingIssue
 {
@@ -48,12 +50,25 @@ namespace ServicebusLinkingIssue
             View view = (View)sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
                 .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+
+            Test();
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public void Test()
+        {
+            var subscriptionClient = new SubscriptionClient(
+                endpoint: "",
+                topicPath: "",
+                subscriptionName: "",
+                tokenProvider: TokenProvider.CreateSharedAccessSignatureTokenProvider(sharedAccessSignature: ""),
+                receiveMode: ReceiveMode.PeekLock,
+                retryPolicy: null);
         }
     }
 }
